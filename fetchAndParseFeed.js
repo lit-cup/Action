@@ -15,15 +15,20 @@ async function fetchAndParseFeed() {
         console.error('XML 解析錯誤:', err);
         return;
       }
+      // 檢查 feed 和 entry 是否存在
+      if (!result.feed || !result.feed.entry || result.feed.entry.length === 0) {
+        console.error('RSS feed 中沒有找到影片');
+        return;
+      }
 
       // 提取影片資訊
       const entry = result.feed.entry[0];
-      const videoId = entry['yt:videoId'][0];
-      const videoTitle = entry.title[0];
-      const videoChannelTitle = entry.author[0].name[0];
-      const videoDescription = entry.summary[0];
-      const videoThumbnail = entry['media:group'][0]['media:thumbnail'][0].$.url;
-      const videoPublishedAt = entry.published[0];
+      const videoId = entry['yt:videoId'] ? entry['yt:videoId'][0] : null;
+      const videoTitle = entry.title ? entry.title[0] : '無標題';
+      const videoChannelTitle = entry.author[0].name ? entry.author[0].name[0] : '未知頻道';
+      const videoDescription = entry.summary ? entry.summary[0] : '無描述';
+      const videoThumbnail = entry['media:group'] && entry['media:group'][0]['media:thumbnail'] ? entry['media:group'][0]['media:thumbnail'][0].$.url : '';
+      const videoPublishedAt = entry.published ? entry.published[0] : '無發布時間';
 
       // 檢查 videoId 是否有變化
       if (videoId !== fs.readFileSync('last_video_id.txt', 'utf8')) {
