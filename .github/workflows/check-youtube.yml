@@ -24,4 +24,4 @@ jobs:
 
       - name: Fetch and parse YouTube RSS Feed
         run: |
-          node fetchYoutubeFeed.js  # 假設你的 JS 代碼文件名稱是 fetchYoutubeFeed.js
+          node fetchAndParseFeed.js  # 假設你的 JS 代碼文件名稱是 fetchYoutubeFeed.js
