@@ -25,11 +25,11 @@ jobs:
           curl -s https://www.youtube.com/feeds/videos.xml?playlist_id=PLvNcWaQnjkK9Ay0lfQbObltjDcrT-ad6z > feed.xml
 
           # 使用 xmllint 來解析 XML 並提取最新影片的相關資訊
-          VIDEO_ID=$(xmllint --xpath "string(//entry[1]/yt:videoId)" feed.xml)
+          VIDEO_ID=$(xmllint --xpath "string(//entry[1]/yt:videoId)" --namespace-uris "http://www.youtube.com/xml/schemas/2015" feed.xml)
           VIDEO_TITLE=$(xmllint --xpath "string(//entry[1]/title)" feed.xml)
           VIDEO_CHANNEL_TITLE=$(xmllint --xpath "string(//entry[1]/author/name)" feed.xml)
           VIDEO_DESCRIPTION=$(xmllint --xpath "string(//entry[1]/summary)" feed.xml)
-          VIDEO_THUMBNAIL=$(xmllint --xpath "string(//entry[1]/media:group/media:thumbnail/@url)" feed.xml)
+          VIDEO_THUMBNAIL=$(xmllint --xpath "string(//entry[1]/media:group/media:thumbnail/@url)" --namespace-uris "http://search.yahoo.com/mrss/" feed.xml)
           VIDEO_PUBLISHED_AT=$(xmllint --xpath "string(//entry[1]/published)" feed.xml)
 
           # 檢查 videoId 是否有變化
