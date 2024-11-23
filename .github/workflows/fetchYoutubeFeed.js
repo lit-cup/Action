@@ -5,7 +5,7 @@ const fs = require('fs');
 async function fetchAndParseFeed() {
   try {
     // 下載 YouTube 播放清單的 RSS feed
-    const response = await axios.get('https://www.youtube.com/feeds/videos.xml?playlist_id=你的播放清單ID');
+    const response = await axios.get('https://www.youtube.com/feeds/videos.xml?playlist_id=PLvNcWaQnjkK9Ay0lfQbObltjDcrT-ad6z');
     const xmlData = response.data;
 
     // 使用 xml2js 解析 XML
@@ -28,7 +28,7 @@ async function fetchAndParseFeed() {
       // 檢查 videoId 是否有變化
       if (videoId !== fs.readFileSync('last_video_id.txt', 'utf8')) {
         // 發送 Webhook
-        axios.post('http://yourdomain.com/webhook', {
+        axios.post('http://localhost:3000/webhook', {
           videoId,
           videoTitle,
           videoChannelTitle,
