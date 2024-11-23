@@ -30,8 +30,18 @@ async function fetchAndParseFeed() {
       const videoThumbnail = entry['media:group'] && entry['media:group'][0]['media:thumbnail'] ? entry['media:group'][0]['media:thumbnail'][0].$.url : '';
       const videoPublishedAt = entry.published ? entry.published[0] : '無發布時間';
 
+      // 檢查 last_video_id.txt 檔案是否存在，如果不存在就創建
+      let lastVideoId = '';
+      if (fs.existsSync('last_video_id.txt')) {
+        lastVideoId = fs.readFileSync('last_video_id.txt', 'utf8');
+      } else {
+        console.log('last_video_id.txt 檔案不存在，將創建新檔案');
+        // 如果檔案不存在，創建空檔案或預設值
+        fs.writeFileSync('last_video_id.txt', '');
+      }
+      
       // 檢查 videoId 是否有變化
-      if (videoId !== fs.readFileSync('last_video_id.txt', 'utf8')) {
+      if (videoId !== lastVideoId) {
         // 發送 Webhook
         axios.post('http://localhost:3000/webhook', {
           videoId,
