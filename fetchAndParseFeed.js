@@ -43,7 +43,7 @@ async function fetchAndParseFeed() {
       // 檢查 videoId 是否有變化
       if (videoId !== lastVideoId) {
         // 發送 Webhook
-        axios.post('http://localhost:3000/webhook', {
+        axios.post('https://webhook.site/8e7d9abc-445d-43e8-b994-3eb69d4076b4', {
           videoId,
           videoTitle,
           videoChannelTitle,
